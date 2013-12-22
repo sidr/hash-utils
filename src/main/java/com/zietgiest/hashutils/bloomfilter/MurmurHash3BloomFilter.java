@@ -31,14 +31,13 @@ public class MurmurHash3BloomFilter<E extends Element> implements BloomFilter<E>
         return true;
     }
 
-    
     private int[] bitPositions(Element e) {
-    	ByteBuffer key = e.getKey();
+        ByteBuffer key = e.getKey();
         long[] hashes = MurmurHash.hash3_x64_128(key, key.position(), key.remaining(), 0L);
         int[] positions = new int[nHashes];
         for (int i = 0; i< nHashes; i++ ) {
-        	// TBD : Need to move towards Open Bitset implementation to avoid 
-        	// casting of long to int 
+            // TBD : Need to move towards Open Bitset implementation to avoid
+            // casting of long to int
             positions[i] = (int) ((hashes[0] + i * hashes[1]) % bitset.size());
         }
         return positions;
